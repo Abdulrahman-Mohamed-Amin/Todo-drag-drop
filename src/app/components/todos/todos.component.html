@@ -1,0 +1,120 @@
+<div class="container-fluid mt-4 vh-100">
+    <div class="row gy-5">
+        <div class="col-md-12">
+            <form action="" class=" w-50 m-auto" [formGroup]="form">
+                <mat-card class="p-2 bg-white">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Fill form field</mat-label>
+                        <input matInput placeholder="Add Task" formControlName="item">
+                        <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+                      </mat-form-field>
+                </mat-card>
+                @if(!isEdit){
+                    <button class="btn btn-primary mt-3 px-4 mx-auto d-block " (click)="add()" [disabled]="form.invalid"
+                    >Add</button>
+                }
+                @if(isEdit){
+                    <button class="btn btn-primary mt-3 px-4 mx-auto d-block " (click)="update()" [disabled]="form.invalid">Update</button>
+                }
+            </form>
+        </div>
+
+        <div class="col-md-12">
+            <div class="row">
+                
+                <div class="col-md-4">
+                    <div class="example-container bg-white rounded-1 shadow-sm p-3">
+                        <h4 class="text-center text-primary">Tasks 
+                            @if(tasks.length > 0){
+                                <span>- {{tasks.length}} -</span>
+                            }
+                        </h4>
+                      
+                        <div
+                          cdkDropList
+                          #todoList1="cdkDropList"
+                          [cdkDropListData]="tasks"
+                          [cdkDropListConnectedTo]="[todoList2 , todoList3]"
+                          class="example-list"
+                          (cdkDropListDropped)="drop($event)">
+                          @for (item of tasks; track $index) {
+                              <div class="example-box" cdkDrag>
+                                <div>{{item.title}}</div>
+                                <div class="box">
+                                    <button mat-icon-button  (click)="delete($index)">
+                                        <mat-icon class="text-danger">delete</mat-icon>
+                                    </button>
+                                    <button mat-icon-button  (click)="onEdit(item , $index)">
+                                      <mat-icon class="text-primary">update</mat-icon>
+                                    </button>
+                                </div>
+                              </div>
+                          }
+                        </div>
+                      </div>
+                </div>
+                
+                <div class="col-md-4">
+                    <div class="example-container bg-white rounded-1 shadow-sm p-3">
+                        <h4 class="text-center text-primary">Proccess 
+                            @if(proccessing.length > 0){
+                                <span>- {{proccessing.length}} -</span>
+                            }
+                        </h4>
+                      
+                        <div
+                          cdkDropList
+                          #todoList2="cdkDropList"
+                          [cdkDropListData]="proccessing"
+                          [cdkDropListConnectedTo]="[todoList3 , todoList1]"
+                          class="example-list"
+                          (cdkDropListDropped)="drop($event)">
+                          @for (item of proccessing; track $index) {
+                              <div class="example-box" cdkDrag>
+                                <div>{{item.title}}</div>
+                                <div class="box">
+                                    <button mat-icon-button  (click)="deleteInProcc($index)">
+                                        <mat-icon class="text-danger">delete</mat-icon>
+                                    </button>
+                                </div>
+                              </div>
+                          }
+                        </div>
+                      </div>
+                </div>
+                
+                <div class="col-md-4">
+                    <div class="example-container bg-white rounded-1 shadow-sm p-3">
+                        <h4 class="text-center text-primary">Done 
+                            @if(done.length > 0){
+                                <span>- {{done.length}} -</span>
+                            }
+                        </h4>
+                      
+                        <div
+                          cdkDropList
+                          #todoList3="cdkDropList"
+                          [cdkDropListData]="done"
+                          [cdkDropListConnectedTo]="[todoList1 , todoList2]"
+                          class="example-list"
+                          (cdkDropListDropped)="drop($event)">
+                          @for (item of done; track $index) {
+                              <div class="example-box" cdkDrag>
+                                <div>{{item.title}}</div>
+                                <div class="box">
+                                    <button mat-icon-button  (click)="deleteInDone($index)">
+                                        <mat-icon class="text-danger">delete</mat-icon>
+                                    </button>
+                                    <button mat-icon-button>
+                                        <mat-icon style="-webkit-text-fill-color: green;">check_cicle</mat-icon>
+                                    </button>
+                                </div>
+                            </div>
+                        }
+                        </div>
+                      </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
